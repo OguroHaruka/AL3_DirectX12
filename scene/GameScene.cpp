@@ -8,6 +8,7 @@ GameScene::GameScene() {}
 GameScene::~GameScene() { 
 	delete model_;
 	delete player_;
+	delete enemy_;    
 	delete debugCamera_;
 }
 
@@ -18,6 +19,12 @@ void GameScene::Initialize() {
 	audio_ = Audio::GetInstance();
 
 	textureHandle_ = TextureManager::Load("uvChecker.png");
+
+	EnemyTexture_ = TextureManager::Load("sample.png");
+	enemy_ = new Enemy();
+	Enemymodel_ = Model::Create();
+	enemy_->Initialize(Enemymodel_, EnemyTexture_);
+	
 
 	worldTransform_.Initialize();
 	viewProjection_.Initialize();
@@ -35,6 +42,7 @@ void GameScene::Initialize() {
 
 void GameScene::Update() { 
 	player_->Update();
+	enemy_->Update();
 	debugCamera_->Update();
 #ifdef _DEBUG
 	if (input_->TriggerKey(DIK_RETURN)) {
@@ -80,6 +88,7 @@ void GameScene::Draw() {
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	
 	player_->Draw(viewProjection_);
+	enemy_->Draw(viewProjection_);
 
 	/// </summary>
 

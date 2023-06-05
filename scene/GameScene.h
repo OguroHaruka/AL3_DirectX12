@@ -9,6 +9,7 @@
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 #include "Player.h"
+#include "Enemy.h"
 #include "DebugCamera.h"
 
 /// <summary>
@@ -59,6 +60,10 @@ private: // メンバ変数
 	DebugCamera *debugCamera_ = nullptr;
 
 	int isDebugCameraActive_;
+
+	Enemy* enemy_ = nullptr;
+	uint32_t EnemyTexture_ = 0;
+	Model* Enemymodel_ = nullptr;
 
 	/// <summary>
 	/// ゲームシーン用
