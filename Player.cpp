@@ -90,6 +90,14 @@ void Player::Update() {
 	//worldTransform_.matWorld_ = MakeAffineMatrix(
 	//    worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
 
+	bullets_.remove_if([](PlayerBullet* bullet) {
+		if (bullet->IsDead()) {
+			delete bullet;
+			return true;
+		}
+		return false;
+	});
+
 	const float kCharacterSpeed = 0.2f;
 
 	if (input_->PushKey(DIK_LEFT)) {
@@ -134,9 +142,11 @@ void Player::Update() {
 
 void Player::Attack() {
 	if (input_->TriggerKey(DIK_SPACE)) {
-
+		const float kBulletSpeed = 1.0f;
+		Vector3 velocity(0, 0, kBulletSpeed);
+		velocity = TransformNormal(velocity, worldTransform_.matWorld_);
 		PlayerBullet* newBullet = new PlayerBullet();
-		newBullet->Initialize(model_, worldTransform_.translation_);
+		newBullet->Initialize(model_, worldTransform_.translation_,velocity);
 		bullets_.push_back(newBullet);
 	}
 }
